@@ -5,12 +5,12 @@
 </head>
 <body ng-controller='mainCtrl'>
 
-  <form ng-submit="getBirds()">
-    <input placeholder="status" type="text" ng-model="status">
+  <form ng-submit="getBirdsSDK()">
+    <select ng-model="status" ng-options="theStatus for theStatus in IUCNCategories"></select>
     <input placeholder="order" type="text" ng-model="order">
     <button type="submit">Submit</button>
   </form>
-
+  <h2 ng-show="err">{{err}}</h2>
   <div ng-repeat="bird in birds">
     Common Name: {{bird.commonName}},
     <br>
