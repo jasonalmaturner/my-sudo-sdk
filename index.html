@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app='sdk'>
+<head>
+  <title>MY SDK</title>
+</head>
+<body ng-controller='mainCtrl'>
+
+  <form ng-submit="getBirds()">
+    <input placeholder="status" type="text" ng-model="status">
+    <input placeholder="order" type="text" ng-model="order">
+    <button type="submit">Submit</button>
+  </form>
+
+  <div ng-repeat="bird in birds">
+    Common Name: {{bird.commonName}},
+    <br>
+    Scientific Name: {{bird.scientificName}}
+    <br>
+    <br>
+  </div>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="app.js"></script>
+  <script src="mainCtrl.js"></script>
+  <script src="mainService.js"></script>
+</body>
+</html>
