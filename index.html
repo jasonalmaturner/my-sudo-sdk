@@ -2,25 +2,19 @@
 <html ng-app='sdk'>
 <head>
   <title>MY SDK</title>
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body ng-controller='mainCtrl'>
 
-  <form ng-submit="getBirdsSDK()">
-    <select ng-model="status" ng-options="theStatus for theStatus in IUCNCategories"></select>
-    <input placeholder="order" type="text" ng-model="order">
-    <button type="submit">Submit</button>
-  </form>
-  <h2 ng-show="err">{{err}}</h2>
-  <div ng-repeat="bird in birds">
-    Common Name: {{bird.commonName}},
-    <br>
-    Scientific Name: {{bird.scientificName}}
-    <br>
-    <br>
-  </div>
+<ng-view></ng-view>
+
   <script src="bower_components/angular/angular.js"></script>
-  <script src="app.js"></script>
-  <script src="mainCtrl.js"></script>
-  <script src="mainService.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/mainCtrl.js"></script>
+  <script src="app/services/mainService.js"></script>
+  <script src="app/views/home/homeCtrl.js"></script>
+  <script src="app/directives/birdDir/birdDir.js"></script>
+  <script src="app/views/addBird/addBirdCtrl.js"></script>
 </body>
 </html>

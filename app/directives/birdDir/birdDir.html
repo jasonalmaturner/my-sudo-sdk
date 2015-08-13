@@ -1,0 +1,21 @@
+<div class="bird-dir">
+  <div ng-hide="edit" ng-click="toggleEdit()">
+    Common Name: {{bird.commonName}},
+    <br>
+    Scientific Name: {{bird.scientificName}}
+    <br>
+    <br>
+  </div>
+  <div ng-show="edit">
+    <form ng-submit="editBird()">
+      <input type="text" ng-model="bird.commonName">
+      <input type="text" ng-model="bird.scientificName">
+      <input type="text" ng-model="bird.order">
+      <input type="text" ng-model="bird.familyName">
+      <input type="text" ng-model="bird.family">
+      <button type="submit">Change Bird</button>
+    </form>
+    <button ng-click="deleteTheBird()">Delete Bird</button>
+    <button ng-click="toggleEdit()">Hide</button>
+  </div>
+</div>

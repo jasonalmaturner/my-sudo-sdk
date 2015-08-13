@@ -1,6 +1,6 @@
 var app = angular.module('sdk');
 
-app.controller('mainCtrl', function($scope, mainService){
+app.controller('homeCtrl', function($scope, mainService){
   $scope.err = false;
   $scope.IUCNCategories = ["all", "lc", "nt", "vu", "en", "cr", "cr (pe)", "cr (pew)", "ew", "ex", "dd", "nr", "ur"]
 
@@ -32,6 +32,18 @@ app.controller('mainCtrl', function($scope, mainService){
         $scope.err = false;
         $scope.birds = birds;
       };
+    });
+  };
+
+  $scope.destroyBird = function(id){
+    console.log(id);
+    mainService.deleteBird(id).then(function(res){
+      for(var i = 0; i < $scope.birds.length; i++){
+        if($scope.birds[i]._id === id){
+          $scope.birds.splice(i, 1);
+        };
+      };
+    }, function(err){
     });
   };
 

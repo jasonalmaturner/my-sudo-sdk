@@ -34,4 +34,34 @@ app.service('mainService', function($http, $q){
     });
   };
 
+  this.editBird = function(bird){
+    var dfd = $q.defer();
+    $http({
+      method: 'PUT',
+      url: 'http://bird-api.com/api/birds/' + bird._id,
+      data: bird
+    }).then(function(res){
+      dfd.resolve(res.data);
+    }, function(err){
+      dfd.reject(err);
+    });
+    return dfd.promise;
+  };
+
+  this.deleteBird = function(id){
+    console.log(id);
+    return $http({
+      method: 'DELETE',
+      url: 'http://bird-api.com/api/birds/' + id
+    });
+  };
+
+  this.createBird = function(bird){
+    return $http({
+      method: 'POST',
+      url: 'http://bird-api.com/api/birds',
+      data: bird
+    })
+  }
+
 });

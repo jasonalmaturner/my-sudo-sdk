@@ -1,0 +1,10 @@
+<a href="#/addBird">Add a new bird</a>
+<form ng-submit="getBirdsSDK()">
+  <select ng-model="status" ng-options="theStatus for theStatus in IUCNCategories"></select>
+  <input placeholder="order" type="text" ng-model="order">
+  <button type="submit">Submit</button>
+</form>
+<h2 ng-show="err">{{err}}</h2>
+<div ng-repeat="theBird in birds">
+  <bird-dir bird="theBird" remove-bird="destroyBird(id)"></bird-dir>
+</div>
