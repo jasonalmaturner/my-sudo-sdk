@@ -1,6 +1,9 @@
 var app = angular.module('sdk');
 
-app.service('mainService', function($http, $q){
+app.service('mainService', function($http, $q, $firebaseAuth, $firebaseObject){
+
+  var ref = new Firebase('https://bird-api.firebaseio.com');
+  var authObject = $firebaseAuth(ref);
 
   this.getBirds = function(order, status){
     var category = status ? 'IUCNRedListCategory2014=' + status : '';
@@ -61,7 +64,68 @@ app.service('mainService', function($http, $q){
       method: 'POST',
       url: 'http://bird-api.com/api/birds',
       data: bird
-    })
+    });
+  };
+
+  this.register = function(user){
+    var dfd = $q.defer();
+    authObject.$createUser({
+      email: user.email,
+      password: user.password
+    }).then(function(authData){
+      var id = authData.uid.replace('simplelogin:', '');
+      var userRef = new Firebase('https://bird-api.firebaseio.com/users/' + id);
+      var userObj = $firebaseObject(userRef);
+      userObj.email = user.email;
+      // userObj.profileImageURL = authData.password.profileImageURL;
+      userObj.$save().then(function(res){
+        console.log(res);
+        authObject.$authWithPassword({
+          email: user.email,
+          password: user.password
+        }).then(function(loggedInUser){
+          console.log(loggedInUser);
+          dfd.resolve(loggedInUser);
+        }, function(error){
+          dfd.reject(error);
+        });
+      }, function(err){
+        dfd.reject(err);
+      });
+    }, function(err){
+      dfd.reject(err);
+    });
+    return dfd.promise;
+  };
+
+  this.login = function(user){
+    authObject.$authWithPassword({
+      email: user.email,
+      password: user.password
+    });
+  };
+
+  this.facebookLogin = function(){
+    authObject.$authWithOAuthPopup('facebook').then(function(authData){
+      var id = authData.uid.replace('facebook:', '');
+      var userRef = new Firebase('https://bird-api.firebaseio.com/users/' + id);
+      var userObj = $firebaseObject(userRef);
+      console.log(userObj, authData)
+      userObj.facebookid = authData.facebook.id;
+      userObj.name = authData.facebook.displayName;
+      userObj.$save().then(function(user){
+        console.log(user);
+      }, function(err){
+        console.log(err);
+      });
+      console.log(authData);
+    }, function(err){
+      console.log(err);
+    });
   }
+
+  this.getAuth = function(){
+    return authObject;
+  };
 
 });

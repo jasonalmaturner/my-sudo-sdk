@@ -1,9 +1,9 @@
 var app = angular.module('sdk');
 
-app.controller('homeCtrl', function($scope, mainService){
+app.controller('homeCtrl', function($scope, mainService, $firebaseObject){
   $scope.err = false;
   $scope.IUCNCategories = ["all", "lc", "nt", "vu", "en", "cr", "cr (pe)", "cr (pew)", "ew", "ex", "dd", "nr", "ur"]
-
+  var authObj = mainService.getAuth();
   $scope.getBirdsSansSDK = function(){
     if($scope.status === 'all'){
       $scope.status = false;
@@ -46,5 +46,38 @@ app.controller('homeCtrl', function($scope, mainService){
     }, function(err){
     });
   };
+
+  $scope.register = function() {
+    mainService.register($scope.newUser).then(function(user){
+      console.log(user);
+      $scope.user = user;
+    }, function(err){
+      console.log(err);
+    });
+  };
+
+  $scope.login = function(){
+    mainService.login($scope.loginUser);
+  };
+
+  $scope.logout = function(){
+    authObj.$unauth();
+  };
+
+  $scope.facebookAuth = function(){
+    mainService.facebookLogin();
+  }
+
+  // console.log(authObj.$getAuth());
+  authObj.$onAuth(function(user){
+    console.log(user);
+    if(user && user.password){
+      $scope.user = user.password;
+    } else if (user && user.facebook){
+      $scope.user = user.facebook
+    } else {
+      $scope.user = user;
+    }
+  });
 
 })
