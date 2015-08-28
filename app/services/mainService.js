@@ -99,6 +99,7 @@ app.service('mainService', function($http, $q, $firebaseAuth, $firebaseObject){
   };
 
   this.login = function(user){
+    console.log('why am i here?')
     authObject.$authWithPassword({
       email: user.email,
       password: user.password

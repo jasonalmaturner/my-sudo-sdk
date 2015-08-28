@@ -10,12 +10,14 @@
     <input type="email" ng-model="loginUser.email" placeholder="email">
     <input type="password" ng-model="loginUser.password" placeholder="password">
     <button>Submit</button>
-    <button ng-click="facebookAuth()">Login in with Facebook</button>
   </form>
+  <button ng-click="facebookAuth()">Login in with Facebook</button>
+  <button ng-click="logout()">logout</button>
   <button ng-click="toggle = !toggle">Toggle form</button>
 </div>
 {{user.email}}
-<img src="{{user.profileImageURL}}">
+{{user.displayName}}
+<img ng-src="{{user.profileImageURL}}">
 
 <button ng-show="user" ng-click="logout()">Logout</button>
 
